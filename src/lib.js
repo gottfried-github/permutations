@@ -17,7 +17,7 @@ function* CartesianProduct(arr) {
 
 }
 
-function recursivelyIterate(data, depth, eachCb, recursivelyIterate) {
+function doRecursivelyIterate(data, depth, noRepeat, eachCb, doRecursivelyIterate) {
   // console.log(`depth: ${depth}`)
 
   if (depth === -1) return
@@ -32,17 +32,31 @@ function recursivelyIterate(data, depth, eachCb, recursivelyIterate) {
 
     if (depth === 0) {eachCb([data[i]]); continue}
 
+    let dataArg = data
+    if (noRepeat) {
+      dataArg = [].concat(data); dataArg.splice(i, 1)
+    }
 
-    recursivelyIterate(data, depth-1, (v) => {
+    doRecursivelyIterate(dataArg, depth-1, noRepeat, (v) => {
       eachCb([data[i]].concat(v))
-    }, recursivelyIterate)
+    }, doRecursivelyIterate)
   }
 }
 
-function tryRecursivelyIterate(data) {
-  recursivelyIterate(data, data.length-1, (v) => {
-    console.log(v)
-  }, recursivelyIterate)
+function recursivelyIterate(data, noRepeat) {
+  permutations = []
+
+  doRecursivelyIterate(data, data.length-1, noRepeat, (v) => {
+    console.log(v); permutations.push(v)
+  }, doRecursivelyIterate)
+
+  console.log(permutations.length)
+  return permutations
+  // recursivelyIterate(data, data.length-1, null, (v) => {
+  //   console.log(v)
+  // }, recursivelyIterate)
+}
+
 }
 
 function cartesianProductSync(arr) {
@@ -56,7 +70,8 @@ function cartesianProductSync(arr) {
 }
 
 module.exports = {
-  cartesianProductSync, recursivelyIterate, tryRecursivelyIterate, // permutations,
+  cartesianProductSync,
+  recursivelyIterate, doRecursivelyIterate, // permutations,
   Pair, Pairs,
   logs: logger.logs, logger
 }
