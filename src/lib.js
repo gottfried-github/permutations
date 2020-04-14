@@ -1,6 +1,43 @@
 const {log, logG, logger} = require("../tools/logger").logger()
 
 function doRecursivelyIterate(data, depth, noRepeat, eachCb, doRecursivelyIterate) {
+  if (depth === -1) return
+
+  var i=0, len=data.length;
+  for (i; i < len; i++) {
+
+    if (depth === 0) {
+      // console.log(`doRecursivelyIterate - data[i]: ${data[i]}, depth: ${depth}`)
+      // makeEachCb([data[i]], depth)(null);
+      eachCb(null, data[i], depth)
+      continue
+    }
+
+    let dataArg = data
+    if (noRepeat) {
+      dataArg = [].concat(data); dataArg.splice(i, 1)
+    }
+
+    doRecursivelyIterate(dataArg, depth-1, noRepeat, (v) => {
+      // console.log(`doRecursivelyIterate - data[i]: ${data[i]}, v: ${v}, depth: ${depth}`)
+      eachCb(v, data[i], depth)
+    }, doRecursivelyIterate)
+  }
+}
+
+function recursivelyIterate(data, depth, noRepeat, eachCb, recursivelyIterate) {
+  doRecursivelyIterate(data, depth, noRepeat, (v, data, depth) => {
+    // console.log(
+    //   "recursivelyIterate - data: ", data,
+    //   ", v: ", v, ", depth: ", depth)
+
+    eachCb((v) ? [data].concat(v) : [data])
+  }, recursivelyIterate)
+}
+
+// class Reject {}
+/*
+function doRecursivelyIterate(data, depth, noRepeat, eachCb, doRecursivelyIterate) {
   // console.log(`depth: ${depth}`)
 
   if (depth === -1) return
@@ -39,6 +76,8 @@ function recursivelyIterate(data, noRepeat) {
   //   console.log(v)
   // }, recursivelyIterate)
 }
+*/
+
 
 class Pair extends Array {
   constructor(l, r) {
