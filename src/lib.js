@@ -78,6 +78,31 @@ function recursivelyIterate(data, noRepeat) {
 }
 */
 
+function trails(vertices) {
+  const edges = []
+  recursivelyIterate(vertices, 1, true, (v) => {
+    edges.push(v)
+  }, recursivelyIterate)
+  console.log(edges);
+
+  const trails = []
+
+  function _recursivelyIterate(data, depth, noRepeat, eachCb, recursivelyIterate) {
+    doRecursivelyIterate(data, depth, true, (v, data, depth) => {
+      if (!v) return eachCb([data])
+
+      console.log((v[0][0] === data[1]), `${data}-${v[0]}`);
+      if (v[0][0] === data[1]) eachCb([data].concat(v))
+
+    }, recursivelyIterate)
+  }
+
+  _recursivelyIterate(edges, edges.length-1, true, (v) => {
+    console.log(v);
+    trails.push(v)
+  }, _recursivelyIterate)
+  return trails
+}
 
 class Pair extends Array {
   constructor(l, r) {
@@ -135,8 +160,8 @@ function connectAll(vertices) {
 }
 
 module.exports = {
-  cartesianProductSync,
-  recursivelyIterate, doRecursivelyIterate, // permutations,
+  cartesianProductSync, trails,
+  recursivelyIterate, doRecursivelyIterate,// permutations,
   Pair, Pairs,
   logs: logger.logs, logger
 }
