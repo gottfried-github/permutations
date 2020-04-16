@@ -1,4 +1,5 @@
-const {doRecursivelyIterate, makeRecursivelyIterate, recursivelyIterate} = require("../src/lib")
+const {doRecursivelyIterate, makeRecursivelyIterate} = require("../src/lib")
+const {recursivelyIterate} = require('../src/api')
 
 function useMakeRecursivelyIterate() {
   const p = []
@@ -13,6 +14,23 @@ function useMakeRecursivelyIterate() {
   console.log(p);
   return p
 }
+
+/*
+function useMakeRecursivelyIterate() {
+  const p = []
+
+  const rIterator = makeRecursivelyIterate((v, data, depth, cb) => {
+    console.log('v: ', v, 'data: ', data, 'depth: ', depth)
+    cb((v) ? [data].concat(v) : [data])
+  })
+
+  rIterator([0,1,2], 2, true, (v) => {p.push(v); console.log(v)})
+
+  console.log(p);
+  return p
+}
+
+*/
 
 function exampleMakeRecursivelyIterate() {
   const edges = []
@@ -35,23 +53,6 @@ function exampleMakeRecursivelyIterate() {
   }, makeTrails)
   return trails
 }
-
-/*
-function useMakeRecursivelyIterate() {
-  const p = []
-
-  const rIterator = makeRecursivelyIterate((v, data, depth, cb) => {
-    console.log('v: ', v, 'data: ', data, 'depth: ', depth)
-    cb((v) ? [data].concat(v) : [data])
-  })
-
-  rIterator([0,1,2], 2, true, (v) => {p.push(v); console.log(v)})
-
-  console.log(p);
-  return p
-}
-
-*/
 
 module.exports = {
   useMakeRecursivelyIterate, exampleMakeRecursivelyIterate
