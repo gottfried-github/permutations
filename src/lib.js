@@ -48,16 +48,20 @@ function makeRecursivelyIterate(cb) {
 }
 */
 
-function trails(vertices) {
-  const edges = []
-  const makeEdges = makeRecursivelyIterate((v, data, depth, eachCb) => {
+function recursivelyIterate(data, depth, noRepeat, eachCb) {
+  const _recursivelyIterate = makeRecursivelyIterate((v, data, depth, eachCb) => {
     eachCb((v) ? [data].concat(v) : [data])
   })
 
-  makeEdges(vertices, 1, true, (v) => {
-    edges.push(v)
-  }, makeEdges)
+  _recursivelyIterate(data, depth, noRepeat, eachCb, _recursivelyIterate)
+}
 
+function trails(vertices) {
+  const edges = []
+
+  recursivelyIterate(vertices, 1, true, (v) => {
+    edges.push(v)
+  })
   console.log(edges);
 
 
@@ -133,7 +137,8 @@ function connectAll(vertices) {
 
 module.exports = {
   cartesianProductSync,
-  makeRecursivelyIterate, doRecursivelyIterate, trails, // permutations,
+  makeRecursivelyIterate, doRecursivelyIterate, recursivelyIterate, // permutations,
+  trails,
   Pair, Pairs,
   logs: logger.logs, logger
 }
