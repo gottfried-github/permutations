@@ -1,5 +1,23 @@
 const {doRecursivelyIterate, recursivelyIterate} = require("../src/lib")
 
+function recursivelyIterateUsage(data, depth, noRepeat, eachCb) {
+  recursivelyIterate(data, depth, noRepeat, (v, data) => {
+    eachCb(v)
+  }, recursivelyIterate)
+}
+
+function doRecursivelyIterateUsage() {
+  const p = []
+  doRecursivelyIterate([0,1,2], 2, true, (v, data, depth) => {
+    // console.log(
+    //   "recursivelyIterate - data: ", data,
+    //   ", v: ", v, ", depth: ", depth)
+
+    p.push((v) ? [data].concat(v) : [data])
+  }, recursivelyIterate)
+}
+
+/*
 function demoRecursivelyIterate() {
   const one = []
   doRecursivelyIterate(["I", "want", "you", "me"], 2, true, (v) => {
@@ -21,5 +39,6 @@ function demoRecursivelyIterate() {
 
   console.log(`the set: [0,1]; length of permutation: 5; is the number of generated permutations correct: ${(Math.pow(2, 5) === three.length)}`, three)
 }
+*/
 
-module.exports = {demoRecursivelyIterate}
+module.exports = {recursivelyIterateUsage}
