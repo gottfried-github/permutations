@@ -1,4 +1,4 @@
-const {doRecursivelyIterate, makeRecursivelyIterate} = require("../src/lib")
+const {doRecursivelyIterate, makeRecursivelyIterate, recursivelyIterate} = require("../src/lib")
 
 function useMakeRecursivelyIterate() {
   const p = []
@@ -16,14 +16,8 @@ function useMakeRecursivelyIterate() {
 
 function exampleMakeRecursivelyIterate() {
   const edges = []
-  const makeEdges = makeRecursivelyIterate((v, data, depth, eachCb) => {
-    eachCb((v) ? [data].concat(v) : [data])
-  })
 
-  makeEdges([0,1,2], 1, true, (v) => {
-    edges.push(v)
-  }, makeEdges)
-
+  recursivelyIterate([0,1,2], 1, true, (v) => {edges.push(v)})
   console.log(edges);
 
 

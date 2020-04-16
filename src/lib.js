@@ -48,6 +48,14 @@ function makeRecursivelyIterate(cb) {
 }
 */
 
+function recursivelyIterate(data, depth, noRepeat, eachCb) {
+  const _recursivelyIterate = makeRecursivelyIterate((v, data, depth, eachCb) => {
+    eachCb((v) ? [data].concat(v) : [data])
+  })
+
+  _recursivelyIterate(data, depth, noRepeat, eachCb, _recursivelyIterate)
+}
+
 class Pair extends Array {
   constructor(l, r) {
     super(l, r)
@@ -105,7 +113,7 @@ function connectAll(vertices) {
 
 module.exports = {
   cartesianProductSync,
-  makeRecursivelyIterate, doRecursivelyIterate, // permutations,
+  makeRecursivelyIterate, doRecursivelyIterate,recursivelyIterate, // permutations,
   Pair, Pairs,
   logs: logger.logs, logger
 }
