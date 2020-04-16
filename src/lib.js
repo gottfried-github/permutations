@@ -25,82 +25,54 @@ function doRecursivelyIterate(data, depth, noRepeat, eachCb, doRecursivelyIterat
   }
 }
 
-function recursivelyIterate(data, depth, noRepeat, eachCb, recursivelyIterate) {
-  doRecursivelyIterate(data, depth, noRepeat, (v, data, depth) => {
-    // console.log(
-    //   "recursivelyIterate - data: ", data,
-    //   ", v: ", v, ", depth: ", depth)
-
-    eachCb((v) ? [data].concat(v) : [data])
-  }, recursivelyIterate)
-}
-
-// class Reject {}
-/*
-function doRecursivelyIterate(data, depth, noRepeat, eachCb, doRecursivelyIterate) {
-  // console.log(`depth: ${depth}`)
-
-  if (depth === -1) return
-
-  // let prefix = ''
-  // for (var x = 0; x < depth; x++) {
-  //   prefix += '  '
-  // }
-
-  var i=0, len=data.length;
-  for (i; i < len; i++) {
-
-    if (depth === 0) {eachCb([data[i]]); continue}
-
-    let dataArg = data
-    if (noRepeat) {
-      dataArg = [].concat(data); dataArg.splice(i, 1)
-    }
-
-    doRecursivelyIterate(dataArg, depth-1, noRepeat, (v) => {
-      eachCb([data[i]].concat(v))
-    }, doRecursivelyIterate)
+function makeRecursivelyIterate(cb) {
+  return (data, depth, noRepeat, eachCb, recursivelyIterate) => {
+    doRecursivelyIterate(data, depth, noRepeat, (v, data, depth) => {
+      cb(v, data, depth, eachCb)
+    }, recursivelyIterate)
   }
 }
 
-function recursivelyIterate(data, noRepeat) {
-  permutations = []
+/*
+// same, but loop the resulting method onto itself
+function makeRecursivelyIterate(cb) {
+  const recursivelyIterate = (data, depth, noRepeat, eachCb, recursivelyIterate) => {
+    doRecursivelyIterate(data, depth, noRepeat, (v, data, depth) => {
+      cb(v, data, depth, eachCb)
+    }, recursivelyIterate)
+  }
 
-  doRecursivelyIterate(data, data.length-1, noRepeat, (v) => {
-    console.log(v); permutations.push(v)
-  }, doRecursivelyIterate)
-
-  console.log(permutations.length)
-  return permutations
-  // recursivelyIterate(data, data.length-1, null, (v) => {
-  //   console.log(v)
-  // }, recursivelyIterate)
+  return (data, depth, noRepeat, eachCb) => {
+    recursivelyIterate(data, depth, noRepeat, eachCb, recursivelyIterate)
+  }
 }
 */
 
 function trails(vertices) {
   const edges = []
-  recursivelyIterate(vertices, 1, true, (v) => {
+  const makeEdges = makeRecursivelyIterate((v, data, depth, eachCb) => {
+    eachCb((v) ? [data].concat(v) : [data])
+  })
+
+  makeEdges(vertices, 1, true, (v) => {
     edges.push(v)
-  }, recursivelyIterate)
+  }, makeEdges)
+
   console.log(edges);
 
+
   const trails = []
+  const makeTrails = makeRecursivelyIterate((v, data, depth, eachCb) => {
+    if (!v) return eachCb([data])
 
-  function _recursivelyIterate(data, depth, noRepeat, eachCb, recursivelyIterate) {
-    doRecursivelyIterate(data, depth, true, (v, data, depth) => {
-      if (!v) return eachCb([data])
+    console.log((v[0][0] === data[1]), `${data}-${v[0]}`);
+    if (v[0][0] === data[1]) eachCb([data].concat(v))
+  })
 
-      console.log((v[0][0] === data[1]), `${data}-${v[0]}`);
-      if (v[0][0] === data[1]) eachCb([data].concat(v))
-
-    }, recursivelyIterate)
-  }
-
-  _recursivelyIterate(edges, edges.length-1, true, (v) => {
+  makeTrails(edges, edges.length-1, true, (v) => {
     console.log(v);
     trails.push(v)
-  }, _recursivelyIterate)
+  }, makeTrails)
   return trails
 }
 
@@ -160,8 +132,8 @@ function connectAll(vertices) {
 }
 
 module.exports = {
-  cartesianProductSync, trails,
-  recursivelyIterate, doRecursivelyIterate,// permutations,
+  cartesianProductSync,
+  makeRecursivelyIterate, doRecursivelyIterate, trails, // permutations,
   Pair, Pairs,
   logs: logger.logs, logger
 }
