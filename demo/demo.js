@@ -1,25 +1,59 @@
-const {doRecursivelyIterate, recursivelyIterate} = require("../src/lib")
+const {doRecursivelyIterate, makeRecursivelyIterate} = require("../src/lib")
+const {recursivelyIterate} = require('../src/api')
 
-function demoRecursivelyIterate() {
-  const one = []
-  doRecursivelyIterate(["I", "want", "you", "me"], 2, true, (v) => {
-    console.log(v); one.push(v)
-  }, doRecursivelyIterate)
-  console.log(one)
+function useMakeRecursivelyIterate() {
+  const p = []
 
-  const two = []
-  doRecursivelyIterate([0,1,2], 1, true, (v) => {
-    console.log(v); two.push(v)
-  }, doRecursivelyIterate)
-  console.log("set: [0,1,2]; length of permutation: 2. Idk how to calculate what the number of permutations should be here", two)
-  // console.log((Math.pow(3,2) === two.length), two)
+  const rIterator = makeRecursivelyIterate((v, data, depth, cb) => {
+    console.log('v: ', v, 'data: ', data, 'depth: ', depth)
+    cb((v) ? [data].concat(v) : [data])
+  })
 
-  const three = []
-  doRecursivelyIterate([0,1], 4, null, (v) => {
-    console.log(v); three.push(v)
-  }, doRecursivelyIterate)
+  rIterator([0,1,2], 2, true, (v) => {p.push(v); console.log(v)}, rIterator)
 
-  console.log(`the set: [0,1]; length of permutation: 5; is the number of generated permutations correct: ${(Math.pow(2, 5) === three.length)}`, three)
+  console.log(p);
+  return p
 }
 
-module.exports = {demoRecursivelyIterate}
+/*
+function useMakeRecursivelyIterate() {
+  const p = []
+
+  const rIterator = makeRecursivelyIterate((v, data, depth, cb) => {
+    console.log('v: ', v, 'data: ', data, 'depth: ', depth)
+    cb((v) ? [data].concat(v) : [data])
+  })
+
+  rIterator([0,1,2], 2, true, (v) => {p.push(v); console.log(v)})
+
+  console.log(p);
+  return p
+}
+
+*/
+
+function exampleMakeRecursivelyIterate() {
+  const edges = []
+
+  recursivelyIterate([0,1,2], 1, true, (v) => {edges.push(v)})
+  console.log(edges);
+
+
+  const trails = []
+  const makeTrails = makeRecursivelyIterate((v, data, depth, eachCb) => {
+    if (!v) return eachCb([data])
+
+    console.log((v[0][0] === data[1]), `${data}-${v[0]}`);
+    if (v[0][0] === data[1]) eachCb([data].concat(v))
+  })
+
+  makeTrails(edges, edges.length-1, true, (v) => {
+    console.log(v);
+    trails.push(v)
+  }, makeTrails)
+  return trails
+}
+
+module.exports = {
+  useMakeRecursivelyIterate, exampleMakeRecursivelyIterate
+}
