@@ -13,6 +13,7 @@ function permutations(data, depth, noRepeat, eachCb) {
         if (noRepeat) _data.splice(i, 1)
         
         permutations(_data, depth-1, noRepeat, (data) => {
+            console.log('eachCb, item, data:', item, data)
             eachCb([item, ...data])
         })
     }
