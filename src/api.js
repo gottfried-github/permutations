@@ -89,6 +89,24 @@ function* CartesianProduct(arr) {
 
 }
 
+/**
+  @param {number} l the preferred length of the permutations sequence
+  (tried with l == 9)
+*/
+function binaryPermutations(l) {
+  const p = []
+
+  const rIterator = makeRecursivelyIterate((v, data, depth, cb) => {
+    // console.log('v: ', v, 'data: ', data, 'depth: ', depth)
+    cb((v) ? [data].concat(v) : [data])
+  })
+
+  rIterator([0,1], l, null, (v) => {p.push(v)}, rIterator)
+
+  // console.log(p);
+  return p
+}
+
 // function cartesianProduct(arr) {
 //   return prettifyProduct(cartesianProductSync(arr))
 // }
