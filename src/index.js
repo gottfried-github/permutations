@@ -5,6 +5,8 @@
  * @param {Function} eachCb callback fires on each permutation
 */
 function permutations(data, depth, noRepeat, eachCb) {
+
+    // backtrack
     if (depth === 0) {
         for (const item of data) {
             eachCb([item])
