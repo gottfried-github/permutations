@@ -1,6 +1,6 @@
 {
   "name": "recursion-and-discrete-math",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "play around with concepts of recursion and their relation to discrete maths",
   "type": "module",
   "main": "src/lib.js",
