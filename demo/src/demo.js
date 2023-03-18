@@ -1,4 +1,4 @@
-import permutations from '../../src/lib.js'
+import permutations from '../../src/index.js'
 
 import './demo.html'
 
