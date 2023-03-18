@@ -1,4 +1,4 @@
-import {permutations, doPermutations} from '../../src/lib.js'
+import permutations from '../../src/lib.js'
 
 import './demo.html'
 

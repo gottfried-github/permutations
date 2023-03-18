@@ -25,6 +25,4 @@ function permutations(data, depth, noRepeat, eachCb) {
     }
 }
 
-export {
-    permutations
-}
+export default permutations
