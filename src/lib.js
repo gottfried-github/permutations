@@ -1,3 +1,9 @@
+/**
+ * @param {Array} data elements which to permutate
+ * @param {Number} depth depth of the recursion: correspondingly, the size of resulting permutations
+ * @param {Boolean} noRepeat whether to avoid repetition of elements in the permutations
+ * @param {Function} eachCb callback fires on each permutation
+*/
 function permutations(data, depth, noRepeat, eachCb) {
     if (depth === 0) {
         for (const item of data) {
