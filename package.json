@@ -1,9 +1,9 @@
 {
-  "name": "recursion-and-discrete-math",
+  "name": "permutations",
   "version": "0.1.0",
   "description": "play around with concepts of recursion and their relation to discrete maths",
   "type": "module",
-  "main": "src/lib.js",
+  "main": "src/index.js",
   "repository": "/",
   "author": "spti <dannvx@gmail.com>",
   "license": "MIT",
