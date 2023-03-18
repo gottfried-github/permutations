@@ -1,6 +1,5 @@
-const {log, logG, logger} = require("../tools/logger").logger()
-
 function doRecursivelyIterate(data, depth, noRepeat, eachCb, doRecursivelyIterate) {
+  console.log(`doRecursivelyIterate, depth:`, depth);
   if (depth === -1) return
 
   var i=0, len=data.length;
@@ -48,7 +47,6 @@ function makeRecursivelyIterate(cb) {
 }
 */
 
-module.exports = {
-  makeRecursivelyIterate, doRecursivelyIterate, // permutations,
-  logs: logger.logs, logger
+export {
+  makeRecursivelyIterate, doRecursivelyIterate
 }

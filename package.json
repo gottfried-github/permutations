@@ -2,9 +2,14 @@
   "name": "recursion-and-discrete-math",
   "version": "0.0.2",
   "description": "play around with concepts of recursion and their relation to discrete maths",
+  "type": "module",
   "main": "src/lib.js",
   "repository": "/",
   "author": "spti <dannvx@gmail.com>",
   "license": "MIT",
-  "private": false
+  "private": false,
+  "devDependencies": {
+    "webpack": "^5.76.2",
+    "webpack-cli": "^5.0.1"
+  }
 }
