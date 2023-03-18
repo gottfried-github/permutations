@@ -1,52 +1,33 @@
-function doRecursivelyIterate(data, depth, noRepeat, eachCb, doRecursivelyIterate) {
-  console.log(`doRecursivelyIterate, depth:`, depth);
-  if (depth === -1) return
-
-  var i=0, len=data.length;
-  for (i; i < len; i++) {
-
+function doPermutations(data, depth, noRepeat, eachCb, permutations) {
     if (depth === 0) {
-      // console.log(`doRecursivelyIterate - data[i]: ${data[i]}, depth: ${depth}`)
-      // makeEachCb([data[i]], depth)(null);
-      eachCb(null, data[i], depth)
-      continue
+        for (const item of data) {
+            eachCb([item])
+        }
+        
+        return
     }
-
-    let dataArg = data
-    if (noRepeat) {
-      dataArg = [].concat(data); dataArg.splice(i, 1)
+    
+    for (const [i, item] of data.entries()) {
+        const _data = [...data]
+        
+        if (noRepeat) _data.splice(i, 1)
+        
+        permutations(_data, depth-1, noRepeat, (data) => {
+            eachCb([item, ...data])
+        }, permutations)
     }
-
-    doRecursivelyIterate(dataArg, depth-1, noRepeat, (v) => {
-      // console.log(`doRecursivelyIterate - data[i]: ${data[i]}, v: ${v}, depth: ${depth}`)
-      eachCb(v, data[i], depth)
-    }, doRecursivelyIterate)
-  }
 }
 
-function makeRecursivelyIterate(cb) {
-  return (data, depth, noRepeat, eachCb, recursivelyIterate) => {
-    doRecursivelyIterate(data, depth, noRepeat, (v, data, depth) => {
-      cb(v, data, depth, eachCb)
-    }, recursivelyIterate)
-  }
+function permutations(data, depth, noRepeat) {
+    const permutations = []
+    
+    doPermutations(data, depth, noRepeat, (data) => {
+        permutations.push(data)
+    }, doPermutations)
+    
+    return permutations
 }
-
-/*
-// same, but loop the resulting method onto itself
-function makeRecursivelyIterate(cb) {
-  const recursivelyIterate = (data, depth, noRepeat, eachCb, recursivelyIterate) => {
-    doRecursivelyIterate(data, depth, noRepeat, (v, data, depth) => {
-      cb(v, data, depth, eachCb)
-    }, recursivelyIterate)
-  }
-
-  return (data, depth, noRepeat, eachCb) => {
-    recursivelyIterate(data, depth, noRepeat, eachCb, recursivelyIterate)
-  }
-}
-*/
 
 export {
-  makeRecursivelyIterate, doRecursivelyIterate
+    permutations, doPermutations
 }

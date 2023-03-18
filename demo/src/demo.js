@@ -1,13 +1,11 @@
-import {doRecursivelyIterate} from '../../src/lib.js'
+import {permutations, doPermutations} from '../../src/lib.js'
 
 import './demo.html'
 
 function main() {
-    doRecursivelyIterate(
-        [0,1], 1, false, 
-        (v, data, depth) => {console.log(`doRecursivelyIterate, eachCb - v, data, depth:`, v, data, depth)}, 
-        doRecursivelyIterate,
-    )
+    const _permutations = permutations([0,1], 1, false)
+
+    console.log(_permutations)
 }
 
 main()
