@@ -1,8 +1,13 @@
 # Description
 Generate all possible permutations of given elements.
 
+# Install
+`npm i permutationsjs`
+
 # Usage
 ```javascript
+import permutations from 'permutationsjs'
+
 const _permutations = []
 
 permutations(
