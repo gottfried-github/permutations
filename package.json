@@ -1,6 +1,6 @@
 {
   "name": "permutationsjs",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "play around with concepts of recursion and their relation to discrete maths",
   "type": "module",
   "main": "src/index.js",
