@@ -4,7 +4,7 @@
   "description": "play around with concepts of recursion and their relation to discrete maths",
   "type": "module",
   "main": "src/index.js",
-  "repository": "/",
+  "repository": "https://github.com/gottfried-github/permutationsjs",
   "author": "spti <dannvx@gmail.com>",
   "license": "MIT",
   "private": false,
