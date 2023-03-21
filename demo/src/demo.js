@@ -4,7 +4,7 @@ import './demo.html'
 
 function main() {
     const _permutations = []
-    permutations([0,1,2], 2, false, permutation => _permutations.push(permutation))
+    permutations([1,2], 5, false, permutation => _permutations.push(permutation))
 
     console.log(_permutations)
 }

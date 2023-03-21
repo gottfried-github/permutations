@@ -19,4 +19,4 @@ permutations(
 ```
 
 # Algorithm
-While propagating, at each step wrap `eachCb` in a wrapper, mapping the input of the wrapper to each element in `data`. On backtrack, call the topmost wrapper with each element in `data`. 
+At each step of the recursion, [pick one element and map all other elements to it](https://github.com/gottfried-github/permutationsjs/blob/7da69eb12b54caa9d9f0601408088a3d2317ee88/src/index.js#L22).
